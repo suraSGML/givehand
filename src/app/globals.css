@@ -1,0 +1,381 @@
+@import "tailwindcss";
+
+/* ── Tell Tailwind v4 to use the .dark CLASS strategy ─────────────
+   By default Tailwind v4 compiles dark: variants as
+   @media (prefers-color-scheme: dark). That means adding .dark to
+   <html> does nothing. This one line switches it to class-based so
+   our ThemeProvider toggle actually works.
+   ────────────────────────────────────────────────────────────────── */
+@variant dark (&:where(.dark, .dark *));
+
+/* ══════════════════════════════════════════════════════════════════
+   GiveHand ET — Global Design System
+   Primary: Deep Teal  · Accent: Warm Amber
+
+   Tailwind v4 dark-mode strategy:
+   - Static brand colours → @theme (build-time, never change)
+   - Dynamic surface tokens (bg, text, card…) → @theme inline
+     "inline" tells Tailwind: "generate utilities that reference
+     a CSS variable directly, so .dark overrides work at runtime"
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────
+   Static brand tokens  (same value in light + dark)
+   ───────────────────────────────────────────────────────────────── */
+@theme {
+  --color-primary:             oklch(0.52 0.13 185);
+  --color-primary-foreground:  oklch(1 0 0);
+  --color-primary-light:       oklch(0.62 0.13 185);
+  --color-primary-dark:        oklch(0.38 0.13 185);
+
+  --color-accent:              oklch(0.84 0.15 80);
+  --color-accent-foreground:   oklch(0.28 0.06 55);
+
+  --color-destructive:         oklch(0.577 0.245 27.325);
+  --color-destructive-foreground: oklch(0.98 0 0);
+
+  --color-success:             oklch(0.55 0.17 145);
+  --color-warning:             oklch(0.84 0.15 80);
+  --color-info:                oklch(0.65 0.18 220);
+
+  --color-chart-1:             oklch(0.52 0.13 185);
+  --color-chart-2:             oklch(0.84 0.15 80);
+  --color-chart-3:             oklch(0.65 0.12 185);
+  --color-chart-4:             oklch(0.7 0.1 230);
+  --color-chart-5:             oklch(0.6 0.18 30);
+
+  --radius:      0.75rem;
+  --radius-sm:   0.375rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-2xl:  1.25rem;
+  --radius-full: 9999px;
+
+  --font-sans:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-mono:    ui-monospace, "Cascadia Code", monospace;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Dynamic surface tokens — @theme inline
+   Tailwind generates: bg-background → background-color: var(--color-background)
+   Then :root / .dark override --color-background at runtime.
+   ───────────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-background:           var(--background);
+  --color-foreground:           var(--foreground);
+  --color-card:                 var(--card);
+  --color-card-foreground:      var(--card-foreground);
+  --color-popover:              var(--popover);
+  --color-popover-foreground:   var(--popover-foreground);
+  --color-muted:                var(--muted);
+  --color-muted-foreground:     var(--muted-foreground);
+  --color-secondary:            var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-border:               var(--border);
+  --color-input:                var(--input);
+  --color-ring:                 var(--ring);
+  --color-sidebar:              var(--sidebar);
+  --color-sidebar-foreground:   var(--sidebar-foreground);
+  --color-sidebar-primary:      var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:       var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border:       var(--sidebar-border);
+  --color-sidebar-ring:         var(--sidebar-ring);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   :root — light mode CSS custom properties
+   ───────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  --background:           oklch(0.99 0 0);
+  --foreground:           oklch(0.15 0.01 240);
+  --card:                 oklch(1 0 0);
+  --card-foreground:      oklch(0.15 0.01 240);
+  --popover:              oklch(1 0 0);
+  --popover-foreground:   oklch(0.15 0.01 240);
+  --muted:                oklch(0.96 0.003 200);
+  --muted-foreground:     oklch(0.52 0.01 240);
+  --secondary:            oklch(0.96 0.005 200);
+  --secondary-foreground: oklch(0.2 0.01 240);
+  --border:               oklch(0.9 0.005 200);
+  --input:                oklch(0.9 0.005 200);
+  --ring:                 oklch(0.52 0.13 185);
+  --primary:              oklch(0.52 0.13 185);
+  --primary-foreground:   oklch(1 0 0);
+  --accent:               oklch(0.84 0.15 80);
+  --accent-foreground:    oklch(0.28 0.06 55);
+  --destructive:          oklch(0.577 0.245 27.325);
+  --radius:               0.75rem;
+
+  --sidebar:                     oklch(0.985 0.002 200);
+  --sidebar-foreground:          oklch(0.15 0.01 240);
+  --sidebar-primary:             oklch(0.52 0.13 185);
+  --sidebar-primary-foreground:  oklch(1 0 0);
+  --sidebar-accent:              oklch(0.96 0.005 200);
+  --sidebar-accent-foreground:   oklch(0.2 0.01 240);
+  --sidebar-border:              oklch(0.9 0.005 200);
+  --sidebar-ring:                oklch(0.52 0.13 185);
+
+  --transition-fast: 150ms cubic-bezier(0.4,0,0.2,1);
+  --transition-base: 250ms cubic-bezier(0.4,0,0.2,1);
+  --transition-slow: 400ms cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   .dark — dark mode overrides
+   ───────────────────────────────────────────────────────────────── */
+.dark {
+  color-scheme: dark;
+
+  --background:           oklch(0.14 0.01 240);
+  --foreground:           oklch(0.96 0.005 200);
+  --card:                 oklch(0.18 0.01 240);
+  --card-foreground:      oklch(0.96 0.005 200);
+  --popover:              oklch(0.18 0.01 240);
+  --popover-foreground:   oklch(0.96 0.005 200);
+  --muted:                oklch(0.22 0.01 240);
+  --muted-foreground:     oklch(0.62 0.01 240);
+  --secondary:            oklch(0.22 0.01 240);
+  --secondary-foreground: oklch(0.96 0.005 200);
+  --border:               oklch(1 0 0 / 10%);
+  --input:                oklch(1 0 0 / 15%);
+  --ring:                 oklch(0.62 0.13 185);
+  --primary:              oklch(0.62 0.13 185);
+  --primary-foreground:   oklch(1 0 0);
+  --accent:               oklch(0.84 0.15 80);
+  --accent-foreground:    oklch(0.28 0.06 55);
+  --destructive:          oklch(0.704 0.191 22.216);
+
+  --sidebar:                     oklch(0.18 0.01 240);
+  --sidebar-foreground:          oklch(0.96 0.005 200);
+  --sidebar-primary:             oklch(0.62 0.13 185);
+  --sidebar-primary-foreground:  oklch(1 0 0);
+  --sidebar-accent:              oklch(0.22 0.01 240);
+  --sidebar-accent-foreground:   oklch(0.96 0.005 200);
+  --sidebar-border:              oklch(1 0 0 / 10%);
+  --sidebar-ring:                oklch(0.62 0.13 185);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Base resets
+   ══════════════════════════════════════════════════════════════════ */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #ffffff;                   /* fallback: explicit white  */
+    background-color: var(--background);         /* overridden by theme token */
+    color: #1a1a2e;                              /* fallback: dark text       */
+    color: var(--foreground);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar        { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { background: var(--muted); }
+  ::-webkit-scrollbar-thumb  {
+    background: oklch(0.52 0.13 185 / 40%);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.52 0.13 185 / 70%);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Named component classes
+   ══════════════════════════════════════════════════════════════════ */
+@layer components {
+
+  .container-app {
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px)  { .container-app { padding-inline: 1.5rem; } }
+  @media (min-width: 1024px) { .container-app { padding-inline: 2rem;   } }
+
+  /* Teal gradient — used for hero, buttons, icons */
+  .bg-primary-gradient {
+    background: linear-gradient(
+      135deg,
+      oklch(0.38 0.13 185) 0%,
+      oklch(0.52 0.13 185) 60%,
+      oklch(0.48 0.12 180) 100%
+    );
+  }
+
+  /* Gradient text for logo */
+  .gradient-text {
+    background: linear-gradient(135deg,
+      oklch(0.52 0.13 185) 0%,
+      oklch(0.72 0.12 185) 50%,
+      oklch(0.84 0.15 80) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Frosted glass card */
+  .card-glass {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 12px -2px oklch(0 0 0 / 8%), 0 2px 6px -2px oklch(0 0 0 / 5%);
+  }
+
+  /* ── Impact counter card ─────────────────────────────────────
+     Uses direct colour values so numbers/labels are always visible
+     regardless of CSS variable resolution order.
+     ─────────────────────────────────────────────────────────── */
+  .impact-card {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background-color: oklch(0.52 0.13 185 / 8%);
+    border: 1px solid oklch(0.52 0.13 185 / 15%);
+    transition: transform 150ms ease, box-shadow 150ms ease;
+  }
+  .impact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px oklch(0 0 0 / 12%);
+  }
+  /* Stat number — explicitly dark in light mode, light in dark mode */
+  .impact-card .stat-value {
+    font-size: 1.875rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+    /* hard-code for light mode; .dark overrides below */
+    color: oklch(0.15 0.01 240);
+  }
+  .dark .impact-card .stat-value {
+    color: oklch(0.96 0.005 200);
+  }
+  .impact-card .stat-label {
+    font-size: 0.875rem;
+    color: oklch(0.52 0.01 240);   /* muted-fg light */
+  }
+  .dark .impact-card .stat-label {
+    color: oklch(0.62 0.01 240);   /* muted-fg dark */
+  }
+
+  /* Verified badge */
+  .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    background: oklch(0.55 0.17 145 / 12%);
+    color: oklch(0.45 0.17 145);
+    border: 1px solid oklch(0.55 0.17 145 / 25%);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .dark .verified-badge {
+    background: oklch(0.55 0.17 145 / 20%);
+    color: oklch(0.75 0.15 145);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 8px;
+    background: var(--muted);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, oklch(0.52 0.13 185), oklch(0.62 0.13 185));
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(90deg, var(--muted) 25%, var(--border) 50%, var(--muted) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.8s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+  }
+  @keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Urgency pulse */
+  .urgency-pulse { position: relative; }
+  .urgency-pulse::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: oklch(0.577 0.245 27.325 / 30%);
+    animation: urgency-ring 2s cubic-bezier(0.4,0,0.6,1) infinite;
+  }
+  @keyframes urgency-ring {
+    0%,100% { opacity: 0; transform: scale(1);    }
+    50%     { opacity: 1; transform: scale(1.05); }
+  }
+
+  /* Hero radial overlay */
+  .hero-pattern {
+    background-image:
+      radial-gradient(circle at 20% 50%, oklch(0.62 0.13 185 / 15%) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, oklch(0.84 0.15 80  / 12%) 0%, transparent 40%),
+      radial-gradient(circle at 60% 80%, oklch(0.52 0.13 185 / 10%) 0%, transparent 35%);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Animations
+   ══════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  .animate-fade-in  { animation: fadeIn  0.4s ease-out both; }
+  .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-scale-in { animation: scaleIn 0.3s cubic-bezier(0.16,1,0.3,1) both; }
+
+  @keyframes fadeIn  { from { opacity:0; transform:translateY(8px);  } to { opacity:1; transform:translateY(0);  } }
+  @keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0);  } }
+  @keyframes scaleIn { from { opacity:0; transform:scale(0.95);      } to { opacity:1; transform:scale(1);       } }
+
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.10s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.20s; }
+  .stagger-5 { animation-delay: 0.25s; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Print
+   ══════════════════════════════════════════════════════════════════ */
+@media print {
+  body { background: #fff !important; color: #0f172a !important; }
+  header, footer, nav, .print\:hidden { display: none !important; }
+  #certificate-print-area {
+    box-shadow: none !important; border-width: 4px !important;
+    margin: 0 !important; page-break-inside: avoid !important; width: 100% !important;
+  }
+}
